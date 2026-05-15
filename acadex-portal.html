@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acadex Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8fc;
+  --bg2: #ffffff;
+  --bg3: #f0f2f8;
+  --sidebar: #0f1923;
+  --sidebar2: #162030;
+  --accent: #2563eb;
+  --accent2: #1d4ed8;
+  --accent-light: #eff6ff;
+  --accent-dim: rgba(37,99,235,0.1);
+  --green: #10b981;
+  --green-light: #ecfdf5;
+  --amber: #f59e0b;
+  --amber-light: #fffbeb;
+  --red: #ef4444;
+  --red-light: #fef2f2;
+  --purple: #8b5cf6;
+  --purple-light: #f5f3ff;
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow2: 0 4px 16px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.logo-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+.nav-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 12px 8px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: rgba(255,255,255,0.5);
+  font-size: 13.5px;
+  font-weight: 400;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+  text-decoration: none;
+}
+
+.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+.nav-item.active { background: var(--accent); color: #fff; font-weight: 500; }
+
+.nav-item svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.8; }
+.nav-item.active svg { opacity: 1; }
+
+.nav-badge {
+  margin-left: auto;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+}
+.nav-item.active .nav-badge { background: rgba(255,255,255,0.25); color: #fff; }
+
+.sidebar-footer {
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.user-row:hover { background: rgba(255,255,255,0.06); }
+
+.user-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.user-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); }
+.user-role { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topbar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.15s;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-ghost { background: none; border: 1px solid var(--border2); color: var(--text2); }
+.btn-ghost:hover { background: var(--bg3); }
+.btn-success { background: var(--green); color: #fff; }
+.btn-success:hover { background: #059669; }
+
+.topbar-btn svg { width: 15px; height: 15px; }
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+/* ── Pages ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Stats Grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--bg2);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.stat-card.blue::before { background: var(--accent); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.amber::before { background: var(--amber); }
+.stat-card.purple::before { background: var(--purple); }
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: 'Playfair Display', serif;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-sub {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.stat-icon {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon.blue { background: var(--accent-light); color: var(--accent); }
+.stat-icon.green { background: var(--green-light); color: var(--green); }
+.stat-icon.amber { background: var(--amber-light); color: var(--amber); }
+.stat-icon.purple { background: var(--purple-light); color: var(--purple); }
+.stat-icon svg { width: 20px; height: 20px; }
+
+/* ── Card ── */
+.card {
+  background: var(--bg2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card-body { padding: 20px; }
+
+/* ── School Cards ── */
+.school-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.school-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.school-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow2);
+}
+
+.school-card.selected {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.school-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 10px; right: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.school-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.school-count { font-size: 22px; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif; }
+.school-label { font-size: 11px; color: var(--text3); }
+
+/* ── Template Cards ── */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.template-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.template-card:hover { border-color: var(--accent); }
+.template-card.selected { border-color: var(--accent); background: var(--accent-light); }
+
+.template-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.template-lang {
+  font-size: 10px;
+  padding: 2px 7px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.template-body {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  background: var(--bg2);
+  border-radius: 6px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+}
+
+/* ── Conversations ── */
+.conv-list { }
+
+.conv-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.conv-item:hover { background: var(--bg3); }
+.conv-item:last-child { border-bottom: none; }
+
+.conv-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.conv-info { flex: 1; min-width: 0; }
+
+.conv-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.conv-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.conv-time { font-size: 11px; color: var(--text3); }
+.conv-msg { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.conv-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.channel-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.ch-whatsapp { background: #dcfce7; color: #166534; }
+.ch-email { background: #ede9fe; color: #5b21b6; }
+.ch-webchat { background: #dbeafe; color: #1e40af; }
+
+.unread-badge {
+  margin-left: auto;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot-open { background: var(--green); }
+.dot-resolved { background: var(--text3); }
+.dot-pending { background: var(--amber); }
+
+/* ── Campaign Wizard ── */
+.wizard-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 28px;
+}
+
+.wizard-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text3);
+}
+
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+
+.wizard-step.active .step-num { border-color: var(--accent); background: var(--accent); color: #fff; }
+.wizard-step.active { color: var(--accent); }
+.wizard-step.done .step-num { border-color: var(--green); background: var(--green); color: #fff; }
+.wizard-step.done { color: var(--green); }
+
+.step-divider {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin: 0 8px;
+  max-width: 60px;
+}
+
+/* ── Template Create Form ── */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: 'Outfit', sans-serif;
+  color: var(--text);
+  background: var(--bg2);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+/* ── Loading ── */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  color: var(--text3);
+  gap: 12px;
+}
+
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Toast ── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: var(--shadow2);
+  animation: slideIn 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 300px;
+}
+
+.toast.success { background: var(--green); }
+.toast.error { background: var(--red); }
+.toast.info { background: var(--accent); }
+
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* ── Modal ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--bg2);
+  border-radius: var(--radius);
+  width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title { font-size: 16px; font-weight: 600; }
+
+.modal-close {
+  width: 30px; height: 30px;
+  border-radius: 6px;
+  background: var(--bg3);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text2);
+  font-size: 16px;
+  transition: background 0.1s;
+}
+.modal-close:hover { background: var(--border); }
+
+.modal-body { padding: 20px 24px; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+
+/* ── Progress Bar ── */
+.progress-bar-wrap {
+  background: var(--bg3);
+  border-radius: 20px;
+  height: 8px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 20px;
+  transition: width 0.5s ease;
+}
+
+/* ── Reports ── */
+.report-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.metric-row:last-child { border-bottom: none; }
+
+.metric-label { font-size: 13px; color: var(--text2); }
+.metric-value { font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* ── Empty State ── */
+.empty {
+  text-align: center;
+  padding: 48px;
+  color: var(--text3);
+}
+.empty svg { width: 48px; height: 48px; margin: 0 auto 12px; display: block; opacity: 0.3; }
+.empty-title { font-size: 14px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Acadex</div>
+    <div class="logo-sub">Learning Portal</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Overview</div>
+    <div class="nav-item active" onclick="navigate('dashboard', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </div>
+
+    <div class="nav-section-title">Marketing</div>
+    <div class="nav-item" onclick="navigate('campaigns', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.67 9.8a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.9-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+      Campaigns
+    </div>
+    <div class="nav-item" onclick="navigate('templates', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Templates
+    </div>
+
+    <div class="nav-section-title">Support</div>
+    <div class="nav-item" onclick="navigate('conversations', this)" id="nav-conv">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Conversations
+      <span class="nav-badge" id="open-count">—</span>
+    </div>
+
+    <div class="nav-section-title">Analytics</div>
+    <div class="nav-item" onclick="navigate('reports', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Reports
+    </div>
+
+    <div class="nav-section-title">Data</div>
+    <div class="nav-item" onclick="navigate('leads', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Leads
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <div class="user-avatar">AC</div>
+      <div>
+        <div class="user-name">Acadex Admin</div>
+        <div class="user-role">Administrator</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <div class="page-title" id="page-title">Dashboard</div>
+    <div class="topbar-right" id="topbar-actions">
+      <button class="topbar-btn btn-ghost" onclick="refreshAll()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Dashboard -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card blue">
+          <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="stat-label">Open Conversations</div>
+          <div class="stat-value" id="stat-open">—</div>
+          <div class="stat-sub">Active right now</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="stat-label">Resolved</div>
+          <div class="stat-value" id="stat-resolved">—</div>
+          <div class="stat-sub">This month</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="stat-label">Total Leads</div>
+          <div class="stat-value" id="stat-leads">—</div>
+          <div class="stat-sub">In Google Sheets</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="stat-label">Avg Response</div>
+          <div class="stat-value" id="stat-response">—</div>
+          <div class="stat-sub">First response time</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Conversations</div>
+            <button class="topbar-btn btn-ghost" style="padding:5px 10px;font-size:12px;" onclick="navigate('conversations', document.querySelector('[onclick*=conversations]'))">View All</button>
+          </div>
+          <div id="dash-conversations">
+            <div class="loading"><div class="spinner"></div><span>Loading...</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Leads by School</div>
+            <button class="topbar-btn btn-ghost" style="padding:5px 10px;font-size:12px;" onclick="navigate('leads', document.querySelector('[onclick*=leads]'))">View All</button>
+          </div>
+          <div class="card-body" id="dash-schools">
+            <div class="loading"><div class="spinner"></div><span>Loading...</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Campaigns -->
+    <div class="page" id="page-campaigns">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Send WhatsApp Campaign</div>
+        </div>
+        <div class="card-body">
+          <div class="wizard-steps">
+            <div class="wizard-step active" id="step-1-indicator">
+              <div class="step-num">1</div> Select Audience
+            </div>
+            <div class="step-divider"></div>
+            <div class="wizard-step" id="step-2-indicator">
+              <div class="step-num">2</div> Choose Template
+            </div>
+            <div class="step-divider"></div>
+            <div class="wizard-step" id="step-3-indicator">
+              <div class="step-num">3</div> Review & Send
+            </div>
+          </div>
+
+          <!-- Step 1: Audience -->
+          <div id="campaign-step-1">
+            <p style="font-size:13px;color:var(--text2);margin-bottom:16px;">Select schools to target. Leave all unselected to send to everyone.</p>
+            <div style="margin-bottom:16px;">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500;">
+                <input type="checkbox" id="select-all-schools" onchange="toggleAllSchools(this)"> Send to ALL contacts
+              </label>
+            </div>
+            <div class="school-grid" id="campaign-schools">
+              <div class="loading"><div class="spinner"></div><span>Loading schools...</span></div>
+            </div>
+            <div style="margin-top:20px;display:flex;justify-content:flex-end;">
+              <button class="topbar-btn btn-primary" onclick="campaignStep2()">Next: Choose Template →</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Template -->
+          <div id="campaign-step-2" style="display:none;">
+            <p style="font-size:13px;color:var(--text2);margin-bottom:16px;">Select an approved WhatsApp template for your campaign.</p>
+            <div class="template-grid" id="campaign-templates">
+              <div class="loading"><div class="spinner"></div><span>Loading templates...</span></div>
+            </div>
+            <div id="template-params-area" style="display:none;margin-top:16px;">
+              <div class="card-header" style="padding:12px 0;border-bottom:none;margin-bottom:8px;">
+                <div class="card-title" style="font-size:13px;">Template Variables</div>
+              </div>
+              <div id="template-params-fields"></div>
+            </div>
+            <div style="margin-top:20px;display:flex;justify-content:space-between;">
+              <button class="topbar-btn btn-ghost" onclick="campaignStep1()">← Back</button>
+              <button class="topbar-btn btn-primary" onclick="campaignStep3()">Next: Review →</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Review & Send -->
+          <div id="campaign-step-3" style="display:none;">
+            <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:20px;border:1px solid var(--border);margin-bottom:20px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div>
+                  <div class="stat-label" style="margin-bottom:6px;">Audience</div>
+                  <div id="review-audience" style="font-size:14px;font-weight:600;color:var(--text);">—</div>
+                </div>
+                <div>
+                  <div class="stat-label" style="margin-bottom:6px;">Total Recipients</div>
+                  <div id="review-count" style="font-size:28px;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif;">—</div>
+                </div>
+                <div>
+                  <div class="stat-label" style="margin-bottom:6px;">Template</div>
+                  <div id="review-template" style="font-size:14px;font-weight:600;color:var(--text);">—</div>
+                </div>
+                <div>
+                  <div class="stat-label" style="margin-bottom:6px;">Estimated Time</div>
+                  <div id="review-time" style="font-size:14px;font-weight:600;color:var(--text);">—</div>
+                </div>
+              </div>
+              <div style="margin-top:16px;">
+                <div class="stat-label" style="margin-bottom:6px;">Message Preview</div>
+                <div id="review-message" style="font-size:13px;color:var(--text2);background:var(--bg2);padding:12px;border-radius:8px;border:1px solid var(--border);white-space:pre-wrap;line-height:1.6;"></div>
+              </div>
+            </div>
+
+            <div id="sending-progress" style="display:none;margin-bottom:20px;">
+              <div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:6px;">Sending campaign...</div>
+              <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+              <div id="progress-text" style="font-size:12px;color:var(--text3);margin-top:6px;">Preparing...</div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;">
+              <button class="topbar-btn btn-ghost" onclick="campaignStep2()">← Back</button>
+              <button class="topbar-btn btn-success" id="send-btn" onclick="sendCampaign()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Send Campaign
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div class="page" id="page-templates">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div></div>
+        <button class="topbar-btn btn-primary" onclick="openCreateTemplate()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create Template
+        </button>
+      </div>
+      <div id="templates-list">
+        <div class="loading"><div class="spinner"></div><span>Loading templates...</span></div>
+      </div>
+    </div>
+
+    <!-- Conversations -->
+    <div class="page" id="page-conversations">
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-body" style="padding:12px 16px;">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="topbar-btn btn-primary" id="filter-open" onclick="filterConv('open', this)" style="padding:6px 14px;font-size:12px;">Open</button>
+            <button class="topbar-btn btn-ghost" id="filter-resolved" onclick="filterConv('resolved', this)" style="padding:6px 14px;font-size:12px;">Resolved</button>
+            <button class="topbar-btn btn-ghost" id="filter-pending" onclick="filterConv('pending', this)" style="padding:6px 14px;font-size:12px;">Pending</button>
+            <div style="margin-left:auto;font-size:12px;color:var(--text3);" id="conv-count-label"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div id="conversations-list">
+          <div class="loading"><div class="spinner"></div><span>Loading conversations...</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reports -->
+    <div class="page" id="page-reports">
+      <div class="report-grid">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Conversation Metrics</div></div>
+          <div class="card-body">
+            <div id="report-metrics">
+              <div class="loading"><div class="spinner"></div><span>Loading...</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Message Volume</div></div>
+          <div class="card-body">
+            <div id="report-messages">
+              <div class="loading"><div class="spinner"></div><span>Loading...</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leads -->
+    <div class="page" id="page-leads">
+      <div class="card" style="margin-bottom:20px;">
+        <div class="card-header">
+          <div class="card-title">Leads by School</div>
+          <div style="font-size:12px;color:var(--text3);" id="leads-total-label"></div>
+        </div>
+        <div class="card-body">
+          <div class="school-grid" id="leads-schools">
+            <div class="loading"><div class="spinner"></div><span>Loading...</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Create Template Modal -->
+<div class="modal-overlay" id="create-template-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Create WhatsApp Template</div>
+      <button class="modal-close" onclick="closeCreateTemplate()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Template Name</label>
+        <input class="form-input" id="tpl-name" placeholder="e.g. admission_reminder" />
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">Lowercase letters, numbers and underscores only</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Language</label>
+          <select class="form-select" id="tpl-lang">
+            <option value="en">English</option>
+            <option value="en_IN">English (India)</option>
+            <option value="ml">Malayalam</option>
+            <option value="hi">Hindi</option>
+            <option value="ar">Arabic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="tpl-category">
+            <option value="MARKETING">Marketing</option>
+            <option value="UTILITY">Utility</option>
+            <option value="AUTHENTICATION">Authentication</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Header Text (optional)</label>
+        <input class="form-input" id="tpl-header" placeholder="e.g. Acadex Learning" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Body Message *</label>
+        <textarea class="form-textarea" id="tpl-body" placeholder="Hi {{1}}, We are excited to invite you to Acadex Learning's open day on {{2}}. Register now!"></textarea>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">Use {{1}}, {{2}} for dynamic variables</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Footer Text (optional)</label>
+        <input class="form-input" id="tpl-footer" placeholder="e.g. Reply STOP to unsubscribe" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="topbar-btn btn-ghost" onclick="closeCreateTemplate()">Cancel</button>
+      <button class="topbar-btn btn-primary" onclick="createTemplate()">Submit for Approval</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+const N8N = 'https://n8n.aiingo.com/webhook';
+const CHATWOOT_URL = 'https://app.aiingo.com/app/accounts/5/conversations';
+
+let state = {
+  schools: [],
+  templates: [],
+  selectedSchools: [],
+  selectedTemplate: null,
+  templateParams: [],
+  stats: {},
+  convStatus: 'open'
+};
+
+// ── Navigation ──
+function navigate(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  if (el) el.classList.add('active');
+  document.getElementById('page-title').textContent = el ? el.textContent.trim() : page;
+  loadPage(page);
+}
+
+function loadPage(page) {
+  if (page === 'dashboard') loadDashboard();
+  if (page === 'campaigns') loadCampaignSchools();
+  if (page === 'templates') loadTemplatesPage();
+  if (page === 'conversations') loadConversations('open');
+  if (page === 'reports') loadReports();
+  if (page === 'leads') loadLeads();
+}
+
+// ── API Calls ──
+async function api(endpoint, method='GET', body=null) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(`${N8N}/${endpoint}`, opts);
+  return r.json();
+}
+
+// ── Dashboard ──
+async function loadDashboard() {
+  loadStats();
+  loadDashConversations();
+  loadDashSchools();
+}
+
+async function loadStats() {
+  try {
+    const data = await api('acadex-get-stats');
+    document.getElementById('stat-open').textContent = data.open ?? '—';
+    document.getElementById('stat-resolved').textContent = data.resolved ?? '—';
+    document.getElementById('open-count').textContent = data.open ?? '—';
+    const rt = data.avg_first_response ? Math.round(data.avg_first_response/60) + 'm' : '—';
+    document.getElementById('stat-response').textContent = rt;
+    state.stats = data;
+    loadLeadsCount();
+  } catch(e) { console.error(e); }
+}
+
+async function loadLeadsCount() {
+  try {
+    const data = await api('acadex-get-leads');
+    document.getElementById('stat-leads').textContent = data.total ?? '—';
+  } catch(e) {}
+}
+
+async function loadDashConversations() {
+  const el = document.getElementById('dash-conversations');
+  try {
+    const data = await api('acadex-get-conversations?status=open');
+    const convs = data.conversations || [];
+    if (!convs.length) { el.innerHTML = '<div class="empty"><div class="empty-title">No open conversations</div></div>'; return; }
+    el.innerHTML = convs.slice(0,5).map(c => convHtml(c)).join('');
+  } catch(e) { el.innerHTML = '<div class="empty"><div class="empty-title">Failed to load</div></div>'; }
+}
+
+async function loadDashSchools() {
+  const el = document.getElementById('dash-schools');
+  try {
+    const data = await api('acadex-get-leads');
+    const schools = data.schools || [];
+    el.innerHTML = schools.slice(0,6).map(s => `
+      <div class="metric-row">
+        <div class="metric-label">${s.school}</div>
+        <div class="metric-value" style="color:var(--accent)">${s.count}</div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div class="empty-title">Failed to load</div>'; }
+}
+
+// ── Conversations ──
+function convHtml(c) {
+  const init = (c.contact_name || 'U')[0].toUpperCase();
+  const chClass = c.channel?.includes('whatsapp') ? 'ch-whatsapp' : c.channel?.includes('email') ? 'ch-email' : 'ch-webchat';
+  const chLabel = c.channel?.includes('whatsapp') ? 'WhatsApp' : c.channel?.includes('email') ? 'Email' : 'Chat';
+  const time = c.last_activity ? new Date(c.last_activity * 1000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '';
+  return `<div class="conv-item" onclick="window.open('${c.chatwoot_url}','_blank')">
+    <div class="conv-avatar">${init}</div>
+    <div class="conv-info">
+      <div class="conv-top">
+        <div class="conv-name">${c.contact_name || 'Unknown'}</div>
+        <div class="conv-time">${time}</div>
+      </div>
+      <div class="conv-msg">${c.last_message || 'No messages yet'}</div>
+      <div class="conv-meta">
+        <div class="status-dot ${c.status==='open'?'dot-open':c.status==='resolved'?'dot-resolved':'dot-pending'}"></div>
+        <span class="channel-badge ${chClass}">${chLabel}</span>
+        ${c.unread > 0 ? `<span class="unread-badge">${c.unread}</span>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+async function loadConversations(status) {
+  state.convStatus = status;
+  const el = document.getElementById('conversations-list');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><span>Loading...</span></div>';
+  try {
+    const data = await api(`acadex-get-conversations?status=${status}`);
+    const convs = data.conversations || [];
+    document.getElementById('conv-count-label').textContent = `${convs.length} conversations`;
+    if (!convs.length) {
+      el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div class="empty-title">No conversations</div><div class="empty-sub">Nothing here yet</div></div>';
+      return;
+    }
+    el.innerHTML = convs.map(c => convHtml(c)).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty"><div class="empty-title">Failed to load conversations</div></div>';
+  }
+}
+
+function filterConv(status, btn) {
+  document.querySelectorAll('[id^=filter-]').forEach(b => { b.className = 'topbar-btn btn-ghost'; b.style.cssText = 'padding:6px 14px;font-size:12px;'; });
+  btn.className = 'topbar-btn btn-primary';
+  btn.style.cssText = 'padding:6px 14px;font-size:12px;';
+  loadConversations(status);
+}
+
+// ── Campaign ──
+async function loadCampaignSchools() {
+  if (state.schools.length) { renderCampaignSchools(); return; }
+  const el = document.getElementById('campaign-schools');
+  try {
+    const data = await api('acadex-get-leads');
+    state.schools = data.schools || [];
+    renderCampaignSchools();
+  } catch(e) { el.innerHTML = '<div class="empty-title">Failed to load schools</div>'; }
+}
+
+function renderCampaignSchools() {
+  const el = document.getElementById('campaign-schools');
+  el.innerHTML = state.schools.map(s => `
+    <div class="school-card" id="school-${s.school.replace(/\s/g,'_')}" onclick="toggleSchool('${s.school}', this)">
+      <div class="school-name">${s.school}</div>
+      <div class="school-count">${s.count}</div>
+      <div class="school-label">contacts</div>
+    </div>`).join('');
+}
+
+function toggleSchool(name, el) {
+  el.classList.toggle('selected');
+  const idx = state.selectedSchools.indexOf(name);
+  if (idx === -1) state.selectedSchools.push(name);
+  else state.selectedSchools.splice(idx, 1);
+}
+
+function toggleAllSchools(cb) {
+  state.selectedSchools = [];
+  document.querySelectorAll('.school-card').forEach(c => {
+    c.classList.toggle('selected', cb.checked);
+    if (cb.checked) state.selectedSchools.push(c.querySelector('.school-name').textContent);
+  });
+}
+
+async function campaignStep2() {
+  document.getElementById('campaign-step-1').style.display = 'none';
+  document.getElementById('campaign-step-2').style.display = 'block';
+  document.getElementById('step-1-indicator').className = 'wizard-step done';
+  document.getElementById('step-2-indicator').className = 'wizard-step active';
+
+  if (state.templates.length) { renderCampaignTemplates(); return; }
+  const el = document.getElementById('campaign-templates');
+  try {
+    const data = await api('acadex-get-templates');
+    state.templates = data.templates || [];
+    renderCampaignTemplates();
+  } catch(e) { el.innerHTML = '<div class="empty-title">Failed to load templates</div>'; }
+}
+
+function renderCampaignTemplates() {
+  const el = document.getElementById('campaign-templates');
+  if (!state.templates.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-title">No approved templates</div><div class="empty-sub">Create a template first and wait for Meta approval</div></div>';
+    return;
+  }
+  el.innerHTML = state.templates.map(t => `
+    <div class="template-card" onclick="selectTemplate('${t.name}', this)">
+      <div class="template-name">${t.name} <span class="template-lang">${t.language}</span></div>
+      <div class="template-body">${t.body || 'No body'}</div>
+    </div>`).join('');
+}
+
+function selectTemplate(name, el) {
+  document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.selectedTemplate = state.templates.find(t => t.name === name);
+  showTemplateParams();
+}
+
+function showTemplateParams() {
+  const t = state.selectedTemplate;
+  if (!t) return;
+  const matches = (t.body || '').match(/\{\{(\d+)\}\}/g) || [];
+  if (!matches.length) { document.getElementById('template-params-area').style.display = 'none'; return; }
+  document.getElementById('template-params-area').style.display = 'block';
+  document.getElementById('template-params-fields').innerHTML = matches.map((m,i) => `
+    <div class="form-group">
+      <label class="form-label">Variable ${m}</label>
+      <input class="form-input" id="param-${i}" placeholder="Value for ${m}" />
+    </div>`).join('');
+}
+
+function campaignStep1() {
+  document.getElementById('campaign-step-2').style.display = 'none';
+  document.getElementById('campaign-step-1').style.display = 'block';
+  document.getElementById('step-1-indicator').className = 'wizard-step active';
+  document.getElementById('step-2-indicator').className = 'wizard-step';
+}
+
+function campaignStep3() {
+  if (!state.selectedTemplate) { showToast('Please select a template', 'error'); return; }
+  const params = [];
+  document.querySelectorAll('[id^=param-]').forEach(i => params.push(i.value));
+  state.templateParams = params;
+
+  document.getElementById('campaign-step-2').style.display = 'none';
+  document.getElementById('campaign-step-3').style.display = 'block';
+  document.getElementById('step-2-indicator').className = 'wizard-step done';
+  document.getElementById('step-3-indicator').className = 'wizard-step active';
+
+  const allSchools = state.selectedSchools.length === 0 || document.getElementById('select-all-schools').checked;
+  const totalCount = allSchools ? state.schools.reduce((a,s) => a+s.count, 0) :
+    state.schools.filter(s => state.selectedSchools.includes(s.school)).reduce((a,s) => a+s.count, 0);
+
+  document.getElementById('review-audience').textContent = allSchools ? 'All Schools' : state.selectedSchools.join(', ');
+  document.getElementById('review-count').textContent = totalCount;
+  document.getElementById('review-template').textContent = state.selectedTemplate.name;
+  document.getElementById('review-time').textContent = `~${Math.ceil(totalCount * 2 / 60)} min`;
+  let preview = state.selectedTemplate.body || '';
+  params.forEach((p,i) => { preview = preview.replace(`{{${i+1}}}`, p || `[var${i+1}]`); });
+  document.getElementById('review-message').textContent = preview;
+}
+
+async function sendCampaign() {
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  document.getElementById('sending-progress').style.display = 'block';
+
+  let prog = 0;
+  const interval = setInterval(() => {
+    prog = Math.min(prog + 5, 90);
+    document.getElementById('progress-fill').style.width = prog + '%';
+    document.getElementById('progress-text').textContent = `Processing... ${prog}%`;
+  }, 1000);
+
+  try {
+    const allSchools = document.getElementById('select-all-schools').checked || state.selectedSchools.length === 0;
+    const payload = {
+      school: allSchools ? 'ALL' : state.selectedSchools[0],
+      template_name: state.selectedTemplate.name,
+      language: state.selectedTemplate.language,
+      params: state.templateParams
+    };
+    const result = await api('acadex-send-campaign', 'POST', payload);
+    clearInterval(interval);
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-text').textContent = `Done! Sent: ${result.sent}, Failed: ${result.failed}`;
+    showToast(`Campaign sent! ${result.sent} messages delivered`, 'success');
+    setTimeout(() => {
+      document.getElementById('sending-progress').style.display = 'none';
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Campaign';
+      resetCampaign();
+    }, 3000);
+  } catch(e) {
+    clearInterval(interval);
+    showToast('Campaign failed. Please try again.', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Send Campaign';
+  }
+}
+
+function resetCampaign() {
+  state.selectedSchools = [];
+  state.selectedTemplate = null;
+  state.templateParams = [];
+  campaignStep1();
+  document.getElementById('step-2-indicator').className = 'wizard-step';
+  document.getElementById('step-3-indicator').className = 'wizard-step';
+  document.getElementById('select-all-schools').checked = false;
+  document.querySelectorAll('.school-card').forEach(c => c.classList.remove('selected'));
+}
+
+// ── Templates Page ──
+async function loadTemplatesPage() {
+  const el = document.getElementById('templates-list');
+  try {
+    const data = await api('acadex-get-templates');
+    state.templates = data.templates || [];
+    if (!state.templates.length) {
+      el.innerHTML = '<div class="card"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div class="empty-title">No approved templates yet</div><div class="empty-sub">Create a new template and submit for Meta approval</div></div></div>';
+      return;
+    }
+    el.innerHTML = `<div class="template-grid">${state.templates.map(t => `
+      <div class="template-card" style="cursor:default;">
+        <div class="template-name">${t.name} <span class="template-lang">${t.language}</span>
+          <span style="margin-left:auto;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600;background:var(--green-light);color:var(--green);">APPROVED</span>
+        </div>
+        ${t.header ? `<div style="font-size:11px;color:var(--text3);margin-bottom:4px;font-weight:600;">HEADER: ${t.header.text||''}</div>` : ''}
+        <div class="template-body">${t.body}</div>
+        ${t.footer ? `<div style="font-size:11px;color:var(--text3);margin-top:6px;">Footer: ${t.footer}</div>` : ''}
+      </div>`).join('')}</div>`;
+  } catch(e) { el.innerHTML = '<div class="empty-title" style="padding:40px;text-align:center;">Failed to load templates</div>'; }
+}
+
+// ── Template Create ──
+function openCreateTemplate() { document.getElementById('create-template-modal').classList.add('open'); }
+function closeCreateTemplate() { document.getElementById('create-template-modal').classList.remove('open'); }
+
+async function createTemplate() {
+  const name = document.getElementById('tpl-name').value.trim();
+  const body = document.getElementById('tpl-body').value.trim();
+  if (!name || !body) { showToast('Template name and body are required', 'error'); return; }
+
+  try {
+    const payload = {
+      name, body,
+      language: document.getElementById('tpl-lang').value,
+      category: document.getElementById('tpl-category').value,
+      header: document.getElementById('tpl-header').value.trim(),
+      footer: document.getElementById('tpl-footer').value.trim()
+    };
+    const result = await api('acadex-create-template', 'POST', payload);
+    if (result.success) {
+      showToast('Template submitted for Meta approval!', 'success');
+      closeCreateTemplate();
+      loadTemplatesPage();
+    } else {
+      showToast('Failed: ' + (result.error || 'Unknown error'), 'error');
+    }
+  } catch(e) { showToast('Failed to create template', 'error'); }
+}
+
+// ── Reports ──
+async function loadReports() {
+  try {
+    const data = await api('acadex-get-stats');
+    const fmt = (s) => s >= 3600 ? Math.round(s/3600) + 'h' : s >= 60 ? Math.round(s/60) + 'm' : (s||0) + 's';
+    document.getElementById('report-metrics').innerHTML = `
+      <div class="metric-row"><div class="metric-label">Total Conversations</div><div class="metric-value">${data.total_conversations||0}</div></div>
+      <div class="metric-row"><div class="metric-label">Open</div><div class="metric-value" style="color:var(--green)">${data.open||0}</div></div>
+      <div class="metric-row"><div class="metric-label">Resolved</div><div class="metric-value">${data.resolved||0}</div></div>
+      <div class="metric-row"><div class="metric-label">Pending</div><div class="metric-value" style="color:var(--amber)">${data.pending||0}</div></div>
+      <div class="metric-row"><div class="metric-label">Avg First Response</div><div class="metric-value" style="color:var(--accent)">${fmt(data.avg_first_response)}</div></div>
+      <div class="metric-row"><div class="metric-label">Avg Resolution Time</div><div class="metric-value">${fmt(data.avg_resolution_time)}</div></div>`;
+    document.getElementById('report-messages').innerHTML = `
+      <div class="metric-row"><div class="metric-label">Incoming Messages</div><div class="metric-value">${data.incoming_messages||0}</div></div>
+      <div class="metric-row"><div class="metric-label">Outgoing Messages</div><div class="metric-value">${data.outgoing_messages||0}</div></div>
+      <div class="metric-row"><div class="metric-label">Period</div><div class="metric-value" style="font-size:12px;font-weight:500;">Last 30 days</div></div>`;
+  } catch(e) {
+    document.getElementById('report-metrics').innerHTML = '<div class="empty-title">Failed to load</div>';
+  }
+}
+
+// ── Leads ──
+async function loadLeads() {
+  const el = document.getElementById('leads-schools');
+  try {
+    const data = await api('acadex-get-leads');
+    const schools = data.schools || [];
+    document.getElementById('leads-total-label').textContent = `${data.total} total contacts`;
+    el.innerHTML = schools.map(s => `
+      <div class="school-card" style="cursor:default;">
+        <div class="school-name">${s.school}</div>
+        <div class="school-count">${s.count}</div>
+        <div class="school-label">contacts</div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div class="empty-title">Failed to load leads</div>'; }
+}
+
+// ── Toast ──
+function showToast(msg, type='info') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// ── Refresh ──
+function refreshAll() { loadPage(document.querySelector('.page.active')?.id?.replace('page-','') || 'dashboard'); showToast('Refreshed', 'info'); }
+
+// ── Init ──
+loadDashboard();
+</script>
+</body>
+</html>
